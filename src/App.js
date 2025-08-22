@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import IconButton from '@mui/material/IconButton';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import Drawer from './components/Drawer';
 
 function App() {
+  const [open, setOpen] = React.useState(false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <IconButton onClick={() => setOpen(true)} aria-label="open drawer">
+        <MenuRoundedIcon />
+      </IconButton>
+
+      <Drawer
+        open={open}
+        onClose={() => setOpen(false)}
+        onSelect={(id) => console.log('Selected:', id)}
+        profile={{ name: 'Nischal k', role: 'Frontend Developer', avatarUrl: '' }}
+        width={320}
+      />
     </div>
   );
 }

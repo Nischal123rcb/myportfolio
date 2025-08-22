@@ -1,6 +1,5 @@
 
 import React from 'react';
-import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
@@ -14,10 +13,14 @@ import IconButton from '@mui/material/IconButton';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import HomeIcon from '@mui/icons-material/Home';export default function Drawer({
-  open,
-  onClose,
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import WorkIcon from '@mui/icons-material/Work';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+
+export default function Drawer({
   onSelect,
+  activeSection = 'home',
   width = 300,
   profile = {
     name: 'Nischal k',
@@ -26,14 +29,15 @@ import HomeIcon from '@mui/icons-material/Home';export default function Drawer({
   },
   links = [
     { id: 'home', label: 'Home', icon: <HomeIcon /> },
-    { id: 'about', label: 'About', icon: null },
-    { id: 'projects', label: 'Projects', icon: null },
-    { id: 'contact', label: 'Contact', icon: null },
+  { id: 'about', label: 'About', icon: <InfoIcon /> },
+  { id: 'projects', label: 'Projects', icon: <WorkIcon /> },
+   { id: 'contact', label: 'Contact', icon: <ContactSupportIcon /> },
+
   ],
   socials = [
-    { id: 'github', icon: <GitHubIcon />, href: '#' },
-    { id: 'linkedin', icon: <LinkedInIcon />, href: '#' },
-    { id: 'email', icon: <MailOutlineIcon />, href: 'mailto:you@example.com' },
+    { id: 'github', icon: <GitHubIcon />, href: 'https://github.com/Nischal123rcb' },
+    { id: 'linkedin', icon: <LinkedInIcon />, href: 'https://www.linkedin.com/in/nischal-k-122899374' },
+    { id: 'email', icon: <MailOutlineIcon />, href: 'mailto:nischalk762@gmail.com' },
   ],
   palette = {
     headerBg: 'transparent',
@@ -45,13 +49,34 @@ import HomeIcon from '@mui/icons-material/Home';export default function Drawer({
     footerText: 'text.secondary',
   },
 }) {
-  const handleSelect = (id) => () => { 
+    const handleSelect = (id) => () => {
     onSelect && onSelect(id);
-    onClose && onClose();
+    
+    // Update URL hash
+    window.history.pushState(null, null, `#${id}`);
+    
+    // Smooth scroll to the respective section
+    setTimeout(() => {
+      const section = document.querySelector(`[data-section="${id}"]`);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   return (
-    <MuiDrawer anchor="left" open={open} onClose={onClose} PaperProps={{ sx: { width } }}>
+    <Box sx={{ 
+      width, 
+      height: '100vh', 
+      borderRight: 1, 
+      borderColor: 'divider', 
+      bgcolor: '#F8F8F8',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      zIndex: 1200,
+      overflow: 'hidden'
+    }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         {/* Header */}
         <Box
@@ -81,6 +106,8 @@ import HomeIcon from '@mui/icons-material/Home';export default function Drawer({
             </Typography>
           </Box>
         </Box>
+        
+
 
         <Divider sx={{ borderColor: palette.divider }} />
 
@@ -89,13 +116,35 @@ import HomeIcon from '@mui/icons-material/Home';export default function Drawer({
           <List sx={{ py: 0 }}>
             {links.map((item) => (
               <ListItem key={item.id} disablePadding>
-                <ListItemButton onClick={handleSelect(item.id)}>
+                <ListItemButton 
+                  onClick={handleSelect(item.id)}
+                  sx={{
+                    bgcolor: activeSection === item.id ? 'primary.main' : 'transparent',
+                    color: activeSection === item.id ? 'white' : palette.itemText,
+                    '&:hover': {
+                      bgcolor: activeSection === item.id ? 'primary.dark' : 'action.hover',
+                    },
+                    transition: 'all 0.3s ease',
+                    borderRadius: 1,
+                    mx: 1,
+                    mb: 0.5
+                  }}
+                >
                   {item.icon ? (
-                    <ListItemIcon sx={{ color: palette.itemIcon }}>{item.icon}</ListItemIcon>
+                    <ListItemIcon sx={{ 
+                      color: activeSection === item.id ? 'white' : palette.itemIcon 
+                    }}>
+                      {item.icon}
+                    </ListItemIcon>
                   ) : null}
                   <ListItemText
                     primary={item.label}
-                    primaryTypographyProps={{ sx: { color: palette.itemText, fontWeight: 500 } }}
+                    primaryTypographyProps={{ 
+                      sx: { 
+                        color: activeSection === item.id ? 'white' : palette.itemText, 
+                        fontWeight: activeSection === item.id ? 700 : 500 
+                      } 
+                    }}
                   />
                 </ListItemButton>
               </ListItem>
@@ -128,6 +177,6 @@ import HomeIcon from '@mui/icons-material/Home';export default function Drawer({
           </Box>
         </Box>
       </Box>
-    </MuiDrawer>
+    </Box>
   );
 }

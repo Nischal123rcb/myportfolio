@@ -1,62 +1,79 @@
 import React from 'react';
-import IconButton from '@mui/material/IconButton';
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+
 import Drawer from './components/Drawer';
 import About from './components/about';
 import Home from './components/Home';
 import Projects from './components/Projects';
 import ProjectSDM from './components/ProjectSDM';
 import Contact from './components/Contact';
-import Portfolio from './components/portfolio';
 
 function App() {
-  const [open, setOpen] = React.useState(false);
-  const [section, setSection] = React.useState('home');
+  const [activeSection, setActiveSection] = React.useState('home');
+
+  const scrollToSection = (sectionId) => {
+    const section = document.querySelector(`[data-section="${sectionId}"]`);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'about', 'projects', 'contact'];
+      const scrollPosition = window.scrollY + 100; // Offset for better detection
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.querySelector(`[data-section="${sections[i]}"]`);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <div className="App">
-      <IconButton onClick={() => setOpen(true)} aria-label="open drawer">
-        <MenuRoundedIcon />
-      </IconButton>
-
+    <div className="App" style={{ display: 'flex' }}>
       <Drawer
-        open={open}
-        onClose={() => setOpen(false)}
-        onSelect={(id) => setSection(id)}
+        onSelect={(id) => scrollToSection(id)}
+        activeSection={activeSection}
         profile={{ name: 'Nischal k', role: 'Frontend Developer', avatarUrl: '' }}
         width={320}
       />
+      <div style={{ flex: 1, marginLeft: '320px' }}>
+        {/* Home Section */}
+        <div data-section="home">
+          <Home />
+        </div>
 
-      {section === 'home' && (
-        <Home onExplore={() => setSection('projects')} />
-      )}
+        {/* About Section */}
+        <div data-section="about">
+          <About
+            name="Nischal k"
+            role="Frontend Developer"
+            onContact={() => scrollToSection('contact')}
+            onDownloadResume={() => console.log('Download resume clicked')}
+          />
+        </div>
 
-      {section === 'about' && (
-        <About
-          name="Nischal k"
-          role="Frontend Developer"
-          onContact={() => setSection('contact')}
-          onDownloadResume={() => console.log('Download resume clicked')}
-        />
-      )}
-
-      {section === 'projects' && (
-        <>
+        {/* Projects Section */}
+        <div data-section="projects">
           <Projects />
           <ProjectSDM />
-          <Portfolio />
-        </>
-      )}
+        </div>
 
-      
-
-      {section === 'contact' && (
-        <Contact
-          onPhone={() => (window.location.href = 'tel:+91 9986919988')}
-          onEmail={() => (window.location.href = 'mailto:nischalk762@gmail.com')}
-          onLinkedIn={() => window.open(': www.linkedin.com/in/nischal-k-122899374', '_blank', 'noopener,noreferrer')}
-        />
-      )}
+        {/* Contact Section */}
+        <div data-section="contact">
+          <Contact
+            onPhone={() => (window.location.href = 'tel:+91 9986919988')}
+            onEmail={() => (window.location.href = 'mailto:nischalk762@gmail.com')}
+            onLinkedIn={() => window.open('https://www.linkedin.com/in/nischal-k-122899374', '_blank', 'noopener,noreferrer')}
+          />
+        </div>
+      </div>
     </div>
   );
 }

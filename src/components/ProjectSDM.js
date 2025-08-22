@@ -10,7 +10,7 @@ import CardContent from '@mui/material/CardContent';
 
 export default function ProjectSDM() {
   return (
-    <Box component="section" sx={{ py: { xs: 4, md: 6 } }}>
+    <Box component="section" sx={{ py: { xs: 2, md: 3 } }}>
       <Container maxWidth="lg">
         <Card variant="outlined">
           <CardContent>
@@ -51,7 +51,7 @@ export default function ProjectSDM() {
                 variant="contained"
                 color="primary"
                 component="a"
-                href="https://your-github-username.github.io/sdm-polytechnic-clone"
+                href="https://github.com/Nischal123rcb/collage-website"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -61,7 +61,7 @@ export default function ProjectSDM() {
                 variant="outlined"
                 color="primary"
                 component="a"
-                href="https://github.com/your-github-username/sdm-polytechnic-clone"
+                href="https://github.com/Nischal123rcb/collage-website"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -5,6 +5,7 @@ import Drawer from './components/Drawer';
 import About from './components/about';
 import Home from './components/Home';
 import Projects from './components/Projects';
+import ProjectSDM from './components/ProjectSDM';
 import Contact from './components/Contact';
 import Portfolio from './components/portfolio';
 
@@ -42,15 +43,18 @@ function App() {
       {section === 'projects' && (
         <>
           <Projects />
+          <ProjectSDM />
           <Portfolio />
         </>
       )}
 
+      
+
       {section === 'contact' && (
         <Contact
-          onPhone={() => (window.location.href = 'tel:+1234567890')}
-          onEmail={() => (window.location.href = 'mailto:you@example.com')}
-          onLinkedIn={() => window.open('https://www.linkedin.com', '_blank', 'noopener,noreferrer')}
+          onPhone={() => (window.location.href = 'tel:+91 9986919988')}
+          onEmail={() => (window.location.href = 'mailto:nischalk762@gmail.com')}
+          onLinkedIn={() => window.open(': www.linkedin.com/in/nischal-k-122899374', '_blank', 'noopener,noreferrer')}
         />
       )}
     </div>

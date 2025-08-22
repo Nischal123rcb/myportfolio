@@ -45,7 +45,7 @@ import HomeIcon from '@mui/icons-material/Home';export default function Drawer({
     footerText: 'text.secondary',
   },
 }) {
-  const handleSelect = (id) => () => {
+  const handleSelect = (id) => () => { 
     onSelect && onSelect(id);
     onClose && onClose();
   };

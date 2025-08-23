@@ -96,10 +96,19 @@ export default function Drawer({
             color: palette.headerText,
           }}
         >
-          <Avatar
-            src={profile.avatarUrl}
+                                <Avatar
+            src="/IMG_20250323_232827.jpg"
             alt={profile.name}
-            sx={{ width: 56, height: 56, bgcolor: 'primary.main', fontWeight: 600 }}
+            sx={{ 
+              width: 56, 
+              height: 56, 
+              bgcolor: 'transparent', 
+              fontWeight: 600,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              border: '2px solid rgba(255, 255, 255, 0.2)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+            }}
           >
             {(!profile.avatarUrl && profile.name) ? profile.name.slice(0, 1) : null}
           </Avatar>

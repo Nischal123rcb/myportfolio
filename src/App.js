@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import NavigationIcon from '@mui/icons-material/Navigation';
 
 import Drawer from './components/Drawer';
 import About from './components/about';
@@ -65,15 +65,15 @@ function App() {
             boxShadow: 3,
           }}
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ p: 1 }}
-          >
-            <MenuIcon />
-          </IconButton>
+                      <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ p: 1 }}
+            >
+              <NavigationIcon />
+            </IconButton>
         </Box>
       )}
 

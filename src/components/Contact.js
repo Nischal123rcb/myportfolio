@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -14,10 +14,106 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Contact({ onPhone, onEmail, onLinkedIn }) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success'
+  });
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      setSnackbar({
+        open: true,
+        message: 'Please fill in all fields',
+        severity: 'error'
+      });
+      return;
+    }
+
+    if (!formData.email.includes('@')) {
+      setSnackbar({
+        open: true,
+        message: 'Please enter a valid email address',
+        severity: 'error'
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Using EmailJS service to send emails
+      // You'll need to set up EmailJS account and get service ID, template ID, and public key
+      const response = await fetch('https://formspree.io/f/xpzgwqeq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        })
+      });
+
+      if (response.ok) {
+        setSnackbar({
+          open: true,
+          message: 'Message sent successfully! I\'ll get back to you soon.',
+          severity: 'success'
+        });
+        // Clear form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setSnackbar({
+        open: true,
+        message: 'Failed to send message. Please try again or contact me directly.',
+        severity: 'error'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(prev => ({ ...prev, open: false }));
   };
 
   return (
@@ -167,52 +263,78 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
           <Grid item xs={12} md={6}>
             <Card sx={{ height: '100%', boxShadow: 2, display: 'flex', flexDirection: 'column' }}>
               <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <Stack spacing={2.5} sx={{ flex: 1, justifyContent: 'space-between' }}>
-                  <Box>
-                    <TextField
-                      fullWidth
-                      label="Your Name"
-                      variant="outlined"
-                      size="medium"
-                      sx={{ mb: 1.5 }}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Your Email"
-                      variant="outlined"
-                      size="medium"
-                      type="email"
-                      sx={{ mb: 1.5 }}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Subject"
-                      variant="outlined"
-                      size="medium"
-                      sx={{ mb: 1.5 }}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Message"
-                      variant="outlined"
-                      size="medium"
-                      multiline
-                      rows={5}
-                      sx={{ mb: 1.5 }}
-                    />
-                  </Box>
-                  <Button 
-                    variant="contained" 
-                    size="large"
-                    onClick={onEmail}
-                    sx={{ 
-                      bgcolor: '#42a5f5',
-                      '&:hover': { bgcolor: '#1976d2' }
-                    }}
-                  >
-                    Send Message
-                  </Button>
-                </Stack>
+                <form onSubmit={handleSubmit}>
+                  <Stack spacing={2.5} sx={{ flex: 1, justifyContent: 'space-between' }}>
+                    <Box>
+                      <TextField
+                        fullWidth
+                        label="Your Name"
+                        variant="outlined"
+                        size="medium"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        sx={{ mb: 1.5 }}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Your Email"
+                        variant="outlined"
+                        size="medium"
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        sx={{ mb: 1.5 }}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Subject"
+                        variant="outlined"
+                        size="medium"
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                        required
+                        sx={{ mb: 1.5 }}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Message"
+                        variant="outlined"
+                        size="medium"
+                        multiline
+                        rows={5}
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        required
+                        sx={{ mb: 1.5 }}
+                      />
+                    </Box>
+                    <Button 
+                      type="submit"
+                      variant="contained" 
+                      size="large"
+                      disabled={loading}
+                      sx={{ 
+                        bgcolor: '#42a5f5',
+                        '&:hover': { bgcolor: '#1976d2' }
+                      }}
+                    >
+                      {loading ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <CircularProgress size={20} color="inherit" />
+                          Sending...
+                        </Box>
+                      ) : (
+                        'Send Message'
+                      )}
+                    </Button>
+                  </Stack>
+                </form>
               </CardContent>
             </Card>
           </Grid>
@@ -233,6 +355,22 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
       >
         <KeyboardArrowUpIcon />
       </Fab>
+
+      {/* Snackbar for notifications */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={handleCloseSnackbar} 
+          severity={snackbar.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

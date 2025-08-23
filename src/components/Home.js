@@ -10,16 +10,32 @@ export default function Home() {
   const [welcomeText, setWelcomeText] = useState('');
   const [isAnimating, setIsAnimating] = useState(true);
   const [isWelcomeAnimating, setIsWelcomeAnimating] = useState(true);
-  const roles = ['Frontend Developer', 'Designer'];
+  const [currentBackground, setCurrentBackground] = useState(0);
+  const roles = ['I am Frontend Developer', 'I am Designer'];
   const fullText = "I am ,Nischal k";
   const welcomeFullText = "Welcome";
   const textRef = useRef(null);
+  
+  // Background images for slideshow
+  const backgroundImages = [
+    '/images (2).jpg',
+    '/images.jpg'
+  ];
   
   // Role switcher effect
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentRole((prevRole) => (prevRole + 1) % roles.length);
     }, 2000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Background slideshow effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBackground((prev) => (prev + 1) % backgroundImages.length);
+    }, 4000); // Change background every 4 seconds
     
     return () => clearInterval(interval);
   }, []);
@@ -71,15 +87,28 @@ export default function Home() {
         py: { xs: 2, sm: 4, md: 6 }, 
         textAlign: 'center',
         minHeight: '100vh',
-        backgroundImage: 'url("/1679683081898.png")',
+        height: '100vh',
+        backgroundImage: `url("${backgroundImages[currentBackground]}")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundAttachment: { xs: 'scroll', sm: 'fixed' },
+        backgroundAttachment: 'fixed',
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        transition: 'background-image 2s ease-in-out',
+        imageRendering: 'high-quality',
+        imageRendering: '-webkit-optimize-contrast',
+        imageRendering: 'crisp-edges',
+        '@media (min-resolution: 2dppx)': {
+          backgroundSize: 'cover',
+          imageRendering: 'high-quality',
+        },
+        '@media (min-resolution: 3dppx)': {
+          backgroundSize: 'cover',
+          imageRendering: 'high-quality',
+        },
         '@keyframes fadeInOut': {
           '0%, 100%': {
             opacity: 1,

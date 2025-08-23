@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import NavigationIcon from '@mui/icons-material/Navigation';
 
 import Drawer from './components/Drawer';
+import MobileNavigation from './components/MobileNavigation';
 import About from './components/about';
 import Home from './components/Home';
 import Projects from './components/Projects';
@@ -65,15 +66,15 @@ function App() {
             boxShadow: 3,
           }}
         >
-                      <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ p: 1 }}
-            >
-              <NavigationIcon />
-            </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ p: 1 }}
+          >
+            <NavigationIcon />
+          </IconButton>
         </Box>
       )}
 
@@ -108,7 +109,8 @@ function App() {
       <div style={{ 
         flex: 1, 
         marginLeft: isMobile ? 0 : '320px',
-        paddingTop: isMobile ? 80 : 0
+        paddingTop: isMobile ? 80 : 0,
+        paddingBottom: isMobile ? 100 : 0 // Add bottom padding for mobile navigation
       }}>
         {/* Home Section */}
         <div data-section="home">
@@ -140,6 +142,14 @@ function App() {
           />
         </div>
       </div>
+
+      {/* Mobile Navigation Bar */}
+      {isMobile && (
+        <MobileNavigation
+          activeSection={activeSection}
+          onSelect={scrollToSection}
+        />
+      )}
     </div>
   );
 }

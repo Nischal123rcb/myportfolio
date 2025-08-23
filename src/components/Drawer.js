@@ -17,11 +17,15 @@ import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import WorkIcon from '@mui/icons-material/Work';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Drawer({
   onSelect,
   activeSection = 'home',
   width = 300,
+  mobileOpen = false,
+  onClose,
+  isMobile = false,
   profile = {
     name: 'Nischal k',
     role: 'Frontend Developer',
@@ -66,16 +70,18 @@ export default function Drawer({
 
   return (
     <Box sx={{ 
-      width, 
+      width: isMobile ? '100%' : width, 
       height: '100vh', 
-      borderRight: 1, 
+      borderRight: isMobile ? 0 : 1, 
       borderColor: 'divider', 
       bgcolor: '#F8F8F8',
       position: 'fixed',
       top: 0,
-      left: 0,
+      left: isMobile ? (mobileOpen ? 0 : '-100%') : 0,
       zIndex: 1200,
-      overflow: 'hidden'
+      overflow: 'hidden',
+      transition: isMobile ? 'left 0.3s ease-in-out' : 'none',
+      boxShadow: isMobile ? 3 : 0
     }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         {/* Header */}
@@ -97,7 +103,7 @@ export default function Drawer({
           >
             {(!profile.avatarUrl && profile.name) ? profile.name.slice(0, 1) : null}
           </Avatar>
-          <Box sx={{ minWidth: 0 }}>
+          <Box sx={{ minWidth: 0, flex: 1 }}>
             <Typography variant="subtitle1" noWrap sx={{ fontWeight: 700 }}>
               {profile.name}
             </Typography>
@@ -105,6 +111,14 @@ export default function Drawer({
               {profile.role}
             </Typography>
           </Box>
+          {isMobile && (
+            <IconButton
+              onClick={onClose}
+              sx={{ color: 'inherit' }}
+            >
+              <CloseIcon />
+            </IconButton>
+          )}
         </Box>
         
 

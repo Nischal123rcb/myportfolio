@@ -1,4 +1,8 @@
 import React from 'react';
+import { useTheme, useMediaQuery } from '@mui/material';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import Drawer from './components/Drawer';
 import About from './components/about';
@@ -9,12 +13,23 @@ import Contact from './components/Contact';
 
 function App() {
   const [activeSection, setActiveSection] = React.useState('home');
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const scrollToSection = (sectionId) => {
     const section = document.querySelector(`[data-section="${sectionId}"]`);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
+    // Close mobile drawer after navigation
+    if (isMobile) {
+      setMobileOpen(false);
+    }
+  };
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
   React.useEffect(() => {
@@ -37,13 +52,48 @@ function App() {
 
   return (
     <div className="App" style={{ display: 'flex' }}>
+      {/* Mobile Menu Button */}
+      {isMobile && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 16,
+            left: 16,
+            zIndex: 1300,
+            bgcolor: 'white',
+            borderRadius: '50%',
+            boxShadow: 3,
+          }}
+        >
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ p: 1 }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Box>
+      )}
+
+      {/* Drawer */}
       <Drawer
         onSelect={(id) => scrollToSection(id)}
         activeSection={activeSection}
         profile={{ name: 'Nischal k', role: 'Frontend Developer', avatarUrl: '' }}
         width={320}
+        mobileOpen={mobileOpen}
+        onClose={handleDrawerToggle}
+        isMobile={isMobile}
       />
-      <div style={{ flex: 1, marginLeft: '320px' }}>
+      
+      {/* Main Content */}
+      <div style={{ 
+        flex: 1, 
+        marginLeft: isMobile ? 0 : '320px',
+        paddingTop: isMobile ? 80 : 0
+      }}>
         {/* Home Section */}
         <div data-section="home">
           <Home />

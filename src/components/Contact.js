@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -31,6 +31,24 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
     message: '',
     severity: 'success'
   });
+
+  // Initialize EmailJS
+  useEffect(() => {
+    // Load EmailJS script
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+    script.async = true;
+    script.onload = () => {
+      if (window.emailjs) {
+        window.emailjs.init('YOUR_PUBLIC_KEY'); // You'll need to replace this with your actual EmailJS public key
+      }
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -70,26 +88,28 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
 
     try {
       // Using EmailJS service to send emails
-      // You'll need to set up EmailJS account and get service ID, template ID, and public key
-      const response = await fetch('https://formspree.io/f/xpzgwqeq', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
+      if (window.emailjs) {
+        const templateParams = {
+          from_name: formData.name,
+          from_email: formData.email,
           subject: formData.subject,
-          message: formData.message
-        })
-      });
+          message: formData.message,
+          to_email: 'nischalk762@gmail.com'
+        };
 
-      if (response.ok) {
+        // Send email using EmailJS
+        await window.emailjs.send(
+          'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
+          'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+          templateParams
+        );
+
         setSnackbar({
           open: true,
           message: 'Message sent successfully! I\'ll get back to you soon.',
           severity: 'success'
         });
+        
         // Clear form
         setFormData({
           name: '',
@@ -98,14 +118,27 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
           message: ''
         });
       } else {
-        throw new Error('Failed to send message');
+        // Fallback: Send email using mailto link
+        const mailtoLink = `mailto:nischalk762@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+        window.open(mailtoLink);
+        
+        setSnackbar({
+          open: true,
+          message: 'Email client opened. Please send the email manually.',
+          severity: 'info'
+        });
       }
     } catch (error) {
       console.error('Error sending message:', error);
+      
+      // Fallback to mailto if EmailJS fails
+      const mailtoLink = `mailto:nischalk762@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+      window.open(mailtoLink);
+      
       setSnackbar({
         open: true,
-        message: 'Failed to send message. Please try again or contact me directly.',
-        severity: 'error'
+        message: 'EmailJS failed. Opened your email client instead. Please send manually.',
+        severity: 'warning'
       });
     } finally {
       setLoading(false);

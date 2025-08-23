@@ -105,14 +105,10 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
     } catch (error) {
       console.error('Error sending message:', error);
       
-      // Fallback: Open email client with pre-filled message
-      const mailtoLink = `mailto:nischalk762@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
-      window.open(mailtoLink);
-      
       setSnackbar({
         open: true,
-        message: 'Email service failed. Opened your email client instead. Please send manually.',
-        severity: 'warning'
+        message: 'Failed to send message. Please try again later or contact me directly at nischalk762@gmail.com',
+        severity: 'error'
       });
     } finally {
       setLoading(false);

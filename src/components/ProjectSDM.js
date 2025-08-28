@@ -51,7 +51,7 @@ export default function ProjectSDM() {
                 variant="contained"
                 color="primary"
                 component="a"
-                href="https://github.com/Nischal123rcb/collage-website"
+                href="https://collagewebsitclon.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -61,7 +61,7 @@ export default function ProjectSDM() {
                 variant="outlined"
                 color="primary"
                 component="a"
-                href="https://github.com/Nischal123rcb/collage-website"
+                href="https://github.com/Nischal123rcb/collagewebsitclon.git"
                 target="_blank"
                 rel="noopener noreferrer"
               >

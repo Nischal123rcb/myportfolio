@@ -76,7 +76,7 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          access_key: 'YOUR_ACCESS_KEY', // You'll get this from Web3Forms
+          access_key: '2a34e9f8-a284-456c-a74f-3cc5cebd5974',
           name: formData.name,
           email: formData.email,
           subject: formData.subject,

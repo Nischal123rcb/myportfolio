@@ -94,32 +94,37 @@ export default function Drawer({
             py: 2.5,
             bgcolor: palette.headerBg,
             color: palette.headerText,
+            justifyContent: isMobile ? 'flex-end' : 'flex-start',
           }}
         >
-                                <Avatar
-            src="/IMG_20250323_232827.jpg"
-            alt={profile.name}
-            sx={{ 
-              width: 56, 
-              height: 56, 
-              bgcolor: 'transparent', 
-              fontWeight: 600,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              border: '2px solid rgba(255, 255, 255, 0.2)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-            }}
-          >
-            {(!profile.avatarUrl && profile.name) ? profile.name.slice(0, 1) : null}
-          </Avatar>
-          <Box sx={{ minWidth: 0, flex: 1 }}>
-            <Typography variant="subtitle1" noWrap sx={{ fontWeight: 700 }}>
-              {profile.name}
-            </Typography>
-            <Typography variant="body2" noWrap color="text.secondary">
-              {profile.role}
-            </Typography>
-          </Box>
+          {!isMobile && (
+            <>
+              <Avatar
+                src="/IMG_20250323_232827.jpg"
+                alt={profile.name}
+                sx={{ 
+                  width: 56, 
+                  height: 56, 
+                  bgcolor: 'transparent', 
+                  fontWeight: 600,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  border: '2px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                }}
+              >
+                {(!profile.avatarUrl && profile.name) ? profile.name.slice(0, 1) : null}
+              </Avatar>
+              <Box sx={{ minWidth: 0, flex: 1 }}>
+                <Typography variant="subtitle1" noWrap sx={{ fontWeight: 700 }}>
+                  {profile.name}
+                </Typography>
+                <Typography variant="body2" noWrap color="text.secondary">
+                  {profile.role}
+                </Typography>
+              </Box>
+            </>
+          )}
           {isMobile && (
             <IconButton
               onClick={onClose}

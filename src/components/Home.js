@@ -87,7 +87,6 @@ export default function Home() {
         py: { xs: 2, sm: 4, md: 6 }, 
         textAlign: 'center',
         minHeight: '100vh',
-        height: '100vh',
         backgroundImage: `url("${backgroundImages[currentBackground]}")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -101,6 +100,7 @@ export default function Home() {
         imageRendering: 'high-quality',
         imageRendering: '-webkit-optimize-contrast',
         imageRendering: 'crisp-edges',
+        overflowX: 'hidden',
         '@media (min-resolution: 2dppx)': {
           backgroundSize: 'cover',
           imageRendering: 'high-quality',

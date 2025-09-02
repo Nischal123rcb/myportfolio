@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import NavigationIcon from '@mui/icons-material/Navigation';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import Drawer from './components/Drawer';
 import About from './components/about';
@@ -22,7 +22,6 @@ function App() {
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
-    // Close mobile drawer after navigation
     if (isMobile) {
       setMobileOpen(false);
     }
@@ -35,7 +34,7 @@ function App() {
   React.useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'about', 'projects', 'contact'];
-      const scrollPosition = window.scrollY + 100; // Offset for better detection
+      const scrollPosition = window.scrollY + 100;
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.querySelector(`[data-section="${sections[i]}"]`);
@@ -51,28 +50,58 @@ function App() {
   }, []);
 
   return (
-    <div className="App" style={{ display: 'flex' }}>
-      {/* Mobile Menu Button */}
+    <div
+      className="App"
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        minHeight: '100vh',
+        width: '100vw',
+        overflowX: 'hidden',
+      }}
+    >
+      {/* Mobile Top Navigation Bar */}
       {isMobile && (
         <Box
           sx={{
             position: 'fixed',
-            top: 16,
-            left: 16,
-            zIndex: 1300,
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 64,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            px: 2,
             bgcolor: 'white',
-            borderRadius: '50%',
-            boxShadow: 3,
+            boxShadow: 2,
+            zIndex: 1300,
           }}
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ p: 1 }}
-          >
-            <NavigationIcon />
+          {/* Profile Section */}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box
+              component="img"
+              src="/IMG_20250323_232827.jpg"// Replace with actual image path
+              alt="Profile"
+              sx={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                objectFit: 'cover',
+                mr: 1,
+              }}
+            />
+            <Box>
+              <Box sx={{ fontWeight: 'bold', fontSize: '1rem', lineHeight: 1 }}>Nischal k</Box>
+              <Box sx={{ fontWeight: 'bold', fontSize: '0.75rem', lineHeight: 1, mt: 0.5 }}>Full Stack Developer</Box>
+            </Box>
+
+          </Box>
+
+          {/* Hamburger Icon */}
+          <IconButton onClick={handleDrawerToggle} color="primary">
+            <MenuIcon />
           </IconButton>
         </Box>
       )}
@@ -97,25 +126,27 @@ function App() {
       <Drawer
         onSelect={(id) => scrollToSection(id)}
         activeSection={activeSection}
-        profile={{ name: 'Nischal k', role: 'Frontend Developer', avatarUrl: '' }}
+        profile={{ name: 'Nischal k', role: 'Full Stack Developer', avatarUrl: '/profile.jpg' }}
         width={320}
         mobileOpen={mobileOpen}
         onClose={handleDrawerToggle}
         isMobile={isMobile}
       />
-      
+
       {/* Main Content */}
-      <div style={{ 
-        flex: 1, 
-        marginLeft: isMobile ? 0 : '320px',
-        paddingTop: isMobile ? 80 : 0
-      }}>
-        {/* Home Section */}
+      <div
+        style={{
+          flex: 1,
+          marginLeft: isMobile ? 0 : '320px',
+          paddingTop: isMobile ? 64 : 0,
+          width: '100%',
+          boxSizing: 'border-box',
+        }}
+      >
         <div data-section="home">
           <Home />
         </div>
 
-        {/* About Section */}
         <div data-section="about">
           <About
             name="Nischal k"
@@ -125,18 +156,18 @@ function App() {
           />
         </div>
 
-        {/* Projects Section */}
         <div data-section="projects">
           <Projects />
           <ProjectSDM />
         </div>
 
-        {/* Contact Section */}
         <div data-section="contact">
           <Contact
             onPhone={() => (window.location.href = 'tel:+91 9986919988')}
             onEmail={() => (window.location.href = 'mailto:nischalk762@gmail.com')}
-            onLinkedIn={() => window.open('https://www.linkedin.com/in/nischal-k-122899374', '_blank', 'noopener,noreferrer')}
+            onLinkedIn={() =>
+              window.open('https://www.linkedin.com/in/nischal-k-122899374', '_blank', 'noopener,noreferrer')
+            }
           />
         </div>
       </div>

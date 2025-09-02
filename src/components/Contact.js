@@ -77,11 +77,12 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
         },
         body: JSON.stringify({
           access_key: '2a34e9f8-a284-456c-a74f-3cc5cebd5974',
-          name: formData.name,
-          email: formData.email,
+          from_name: formData.name,
+          from_email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          to: 'nischalk762@gmail.com'
+          to: 'nischalk762@gmail.com',
+          'hidden_subject': formData.subject
         })
       });
 

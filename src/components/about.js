@@ -92,44 +92,47 @@ Driven by a desire to create meaningful digital experiences, I'm eager to join d
             Educational Qualifications
           </Typography>
           <Box sx={{ 
-            mt: 3, 
-            border: 1, 
-            borderColor: 'divider', 
-            borderRadius: 2,
-            bgcolor: 'background.paper',
-            overflow: 'hidden',
-            '&:hover': { boxShadow: 2, transition: 'box-shadow 0.3s ease' }
-          }}>
-            <Box
-              component="table"
-              sx={{
-                width: '100%',
-                borderCollapse: 'collapse',
-                '& th, & td': {
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  padding: 2,
-                  textAlign: 'left',
-                  verticalAlign: 'top'
-                },
-                '& th': {
-                  bgcolor: 'primary.main',
-                  color: 'white',
-                  fontWeight: 700,
-                  fontSize: '0.875rem'
-                },
-                '& tr:nth-of-type(even)': {
-                  bgcolor: 'action.hover'
-                },
-                '& tr:hover': {
-                  bgcolor: 'action.selected'
-                },
-                '& strong': {
-                  color: 'primary.main',
-                  fontWeight: 700
-                }
-              }}
-            >
+              mt: 3, 
+              border: 1, 
+              borderColor: 'divider', 
+              borderRadius: 2,
+              bgcolor: 'background.paper',
+              overflowX: 'auto',
+              overflowY: 'hidden',
+              maxWidth: '100%',
+              '&:hover': { boxShadow: 2, transition: 'box-shadow 0.3s ease' }
+            }}>
+              <Box
+                component="table"
+                sx={{
+                  minWidth: 500,
+                  width: '100%',
+                  borderCollapse: 'collapse',
+                  '& th, & td': {
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    padding: 2,
+                    textAlign: 'left',
+                    verticalAlign: 'top'
+                  },
+                  '& th': {
+                    bgcolor: 'primary.main',
+                    color: 'white',
+                    fontWeight: 700,
+                    fontSize: '0.875rem'
+                  },
+                  '& tr:nth-of-type(even)': {
+                    bgcolor: 'action.hover'
+                  },
+                  '& tr:hover': {
+                    bgcolor: 'action.selected'
+                  },
+                  '& strong': {
+                    color: 'primary.main',
+                    fontWeight: 700
+                  }
+                }}
+              >
               <Box component="thead">
                 <Box component="tr">
                   <Box component="th" sx={{ width: '25%' }}>Qualification</Box>
@@ -156,7 +159,7 @@ Driven by a desire to create meaningful digital experiences, I'm eager to join d
                       color="primary" 
                       variant="outlined"
                       size="small"
-                      sx={{ fontWeight: 600 }}
+                      sx={{ fontWeight: 600, minWidth: 64, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
                     />
                   </Box>
                 </Box>
@@ -177,7 +180,7 @@ Driven by a desire to create meaningful digital experiences, I'm eager to join d
                       color="primary" 
                       variant="outlined"
                       size="small"
-                      sx={{ fontWeight: 600 }}
+                      sx={{ fontWeight: 600, minWidth: 64, fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
                     />
                   </Box>
                 </Box>

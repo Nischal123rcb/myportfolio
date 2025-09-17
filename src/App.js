@@ -8,7 +8,6 @@ import Drawer from './components/Drawer';
 import About from './components/about';
 import Home from './components/Home';
 import Projects from './components/Projects';
-import ProjectSDM from './components/ProjectSDM';
 import Contact from './components/Contact';
 
 function App() {
@@ -158,7 +157,6 @@ function App() {
 
         <div data-section="projects">
           <Projects />
-          <ProjectSDM />
         </div>
 
         <div data-section="contact">

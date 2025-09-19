@@ -59,54 +59,50 @@ function App() {
         overflowX: 'hidden',
       }}
     >
-      {/* Mobile Top Navigation Bar */}
-      {isMobile && (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 64,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            px: 2,
-            bgcolor: 'white',
-            boxShadow: 2,
-            zIndex: 1300,
-          }}
-        >
-          {/* Profile Section */}
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box
-              component="img"
-              src="/IMG_20250323_232827.jpg"// Replace with actual image path
-              alt="Profile"
-              sx={{
-                width: 40,
-                height: 40,
-                borderRadius: '50%',
-                objectFit: 'cover',
-                mr: 1,
-              }}
-            />
-            <Box>
-              <Box sx={{ fontWeight: 'bold', fontSize: '1rem', lineHeight: 1 }}>Nischal k</Box>
-              <Box sx={{ fontWeight: 'bold', fontSize: '0.75rem', lineHeight: 1, mt: 0.5 }}>Full Stack Developer</Box>
-            </Box>
-
+      {/* Top Navigation Bar (AppBar) for all screens */}
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 64,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          px: 2,
+          bgcolor: 'white',
+          boxShadow: 2,
+          zIndex: 1300,
+        }}
+      >
+        {/* Profile Section */}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box
+            component="img"
+            src="/IMG_20250323_232827.jpg"
+            alt="Profile"
+            sx={{
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              objectFit: 'cover',
+              mr: 1,
+            }}
+          />
+          <Box>
+            <Box sx={{ fontWeight: 'bold', fontSize: '1rem', lineHeight: 1 }}>Nischal k</Box>
+            <Box sx={{ fontWeight: 'bold', fontSize: '0.75rem', lineHeight: 1, mt: 0.5 }}>Full Stack Developer</Box>
           </Box>
-
-          {/* Hamburger Icon */}
-          <IconButton onClick={handleDrawerToggle} color="primary">
-            <MenuIcon />
-          </IconButton>
         </Box>
-      )}
+        {/* Hamburger Icon */}
+        <IconButton onClick={handleDrawerToggle} color="primary">
+          <MenuIcon />
+        </IconButton>
+      </Box>
 
-      {/* Mobile Backdrop */}
-      {isMobile && mobileOpen && (
+      {/* Backdrop for Drawer on all screens */}
+      {mobileOpen && (
         <Box
           sx={{
             position: 'fixed',
@@ -129,15 +125,15 @@ function App() {
         width={320}
         mobileOpen={mobileOpen}
         onClose={handleDrawerToggle}
-        isMobile={isMobile}
+        isMobile={false} // Always treat as desktop for Drawer, so it always slides in/out
       />
 
       {/* Main Content */}
       <div
         style={{
           flex: 1,
-          marginLeft: isMobile ? 0 : '320px',
-          paddingTop: isMobile ? 64 : 0,
+          marginLeft: 0,
+          paddingTop: 64,
           width: '100%',
           boxSizing: 'border-box',
         }}

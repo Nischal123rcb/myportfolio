@@ -69,19 +69,22 @@ export default function Drawer({
   };
 
   return (
-    <Box sx={{ 
-      width: isMobile ? '100%' : width, 
-      height: '100vh', 
-      borderRight: isMobile ? 0 : 1, 
-      borderColor: 'divider', 
+    <Box sx={{
+      width: isMobile ? '100%' : width,
+      height: '100vh',
+      borderRight: isMobile ? 0 : 1,
+      borderColor: 'divider',
       bgcolor: '#F8F8F8',
       position: 'fixed',
       top: 0,
-      left: isMobile ? (mobileOpen ? 0 : '-100%') : 0,
+      left: mobileOpen ? 0 : `-${isMobile ? '100%' : width + 'px'}`,
       zIndex: 1200,
       overflow: 'hidden',
-      transition: isMobile ? 'left 0.3s ease-in-out' : 'none',
-      boxShadow: isMobile ? 3 : 0
+      transition: 'left 0.35s cubic-bezier(.4,0,.2,1)',
+      boxShadow: isMobile ? 3 : 0,
+      borderRadius: 0,
+      mx: 0,
+      mt: 0,
     }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         {/* Header */}
@@ -89,42 +92,13 @@ export default function Drawer({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: 2,
             px: 2,
             py: 2.5,
             bgcolor: palette.headerBg,
             color: palette.headerText,
-            justifyContent: isMobile ? 'flex-end' : 'flex-start',
+            justifyContent: 'flex-end',
           }}
         >
-          {!isMobile && (
-            <>
-              <Avatar
-                src="/IMG_20250323_232827.jpg"
-                alt={profile.name}
-                sx={{ 
-                  width: 56, 
-                  height: 56, 
-                  bgcolor: 'transparent', 
-                  fontWeight: 600,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  border: '2px solid rgba(255, 255, 255, 0.2)',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-                }}
-              >
-                {(!profile.avatarUrl && profile.name) ? profile.name.slice(0, 1) : null}
-              </Avatar>
-              <Box sx={{ minWidth: 0, flex: 1 }}>
-                <Typography variant="subtitle1" noWrap sx={{ fontWeight: 700 }}>
-                  {profile.name}
-                </Typography>
-                <Typography variant="body2" noWrap color="text.secondary">
-                  {profile.role}
-                </Typography>
-              </Box>
-            </>
-          )}
           {isMobile && (
             <IconButton
               onClick={onClose}

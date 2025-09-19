@@ -121,7 +121,12 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
   };
 
   return (
-    <Box component="section" sx={{ py: { xs: 3, md: 4 }, position: 'relative' }}>
+    <Box component="section" sx={{
+      py: { xs: 3, md: 4 },
+      position: 'relative',
+      mx: 0,
+      mt: 0,
+    }}>
       <Container maxWidth="lg">
         {/* Header */}
         <Box sx={{ textAlign: 'center', mb: 6 }}>
@@ -137,7 +142,11 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
         <Grid container spacing={4} sx={{ minHeight: '70vh' }}>
           {/* Left Column - Contact Information */}
           <Grid item xs={12} md={6}>
-            <Card sx={{ height: '100%', boxShadow: 2, display: 'flex', flexDirection: 'column' }}>
+            <Card sx={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
               <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <Stack spacing={2.5} sx={{ flex: 1 }}>
                   {/* Location */}
@@ -265,7 +274,11 @@ export default function Contact({ onPhone, onEmail, onLinkedIn }) {
 
           {/* Right Column - Contact Form */}
           <Grid item xs={12} md={6}>
-            <Card sx={{ height: '100%', boxShadow: 2, display: 'flex', flexDirection: 'column' }}>
+            <Card sx={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
               <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <form onSubmit={handleSubmit}>
                   <Stack spacing={2.5} sx={{ flex: 1, justifyContent: 'space-between' }}>

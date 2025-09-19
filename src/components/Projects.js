@@ -31,7 +31,12 @@ const projects = [
 
 export default function Projects() {
   return (
-    <Box component="section" sx={{ py: 4, backgroundColor: '#f9f9f9' }}>
+    <Box component="section" sx={{
+      py: 4,
+      backgroundColor: '#f9f9f9',
+      mx: 0,
+      mt: 0,
+    }}>
       <Typography variant="h4" sx={{ fontWeight: 800, mb: 3, textAlign: 'center' }}>
         Projects
       </Typography>

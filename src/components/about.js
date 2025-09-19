@@ -26,7 +26,7 @@ Driven by a desire to create meaningful digital experiences, I'm eager to join d
     'UI/UX Design',
     'Cloud Computing',
   ],
-  onContact,
+  onViewResume,
   onDownloadResume,
 }) {
   return (
@@ -52,22 +52,24 @@ Driven by a desire to create meaningful digital experiences, I'm eager to join d
                 variant="contained" 
                 color="primary" 
                 onClick={() => {
-                  onContact();
-                  // Smooth scroll to contact section
-                  setTimeout(() => {
-                    const contactSection = document.querySelector('[data-section="contact"]');
-                    if (contactSection) {
-                      contactSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }, 100);
-                }} 
+                  if (typeof onViewResume === 'function') {
+                    onViewResume();
+                  } else {
+                    window.open('/resume.pdf', '_blank');
+                  }
+                }}
                 disableElevation
               >
-                Contact Me
+                View Resume
               </Button>
-              <Button variant="outlined" color="primary" onClick={onDownloadResume}>
-                Download Resume
-              </Button>
+              <a href="/resume.pdf" download style={{ textDecoration: 'none' }}>
+                <Button 
+                  variant="outlined" 
+                  color="primary"
+                >
+                  Download Resume
+                </Button>
+              </a>
             </Stack>
           </Grid>
         </Grid>
@@ -78,10 +80,48 @@ Driven by a desire to create meaningful digital experiences, I'm eager to join d
           <Typography variant="h5" sx={{ fontWeight: 800, mb: 2 }}>
             Skills
           </Typography>
-          <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mt: 1.5 }}>
-            {skills.map((skill) => (
-              <Chip key={skill} label={skill} variant="outlined" color="default" />
-            ))}
+          <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap" sx={{ mt: 1.5 }}>
+            {skills.map((skill) => {
+              // Map skill names to logo image filenames in public folder
+              const logos = {
+                'React': '/logo192.png',
+                'JavaScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
+                'HTML/CSS': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
+                'Material UI': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg',
+                'GitHub': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
+                'Problem Solving': 'https://cdn-icons-png.flaticon.com/512/190/190411.png',
+                'UI/UX Design': 'https://cdn-icons-png.flaticon.com/512/1828/1828919.png',
+                'Cloud Computing': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg',
+              };
+              return (
+                <Box
+                  key={skill}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    px: 2,
+                    py: 1,
+                    borderRadius: 2,
+                    boxShadow: '0 6px 20px 0 rgba(0,0,0,0.25), 0 1.5px 4px 0 rgba(0,0,0,0.15)',
+                    background: 'linear-gradient(135deg, #fff 60%, #e3e3e3 100%)',
+                    transform: 'perspective(400px) rotateX(8deg)',
+                    transition: 'transform 0.2s',
+                    '&:hover': {
+                      transform: 'perspective(400px) rotateX(0deg) scale(1.07)',
+                      boxShadow: '0 12px 32px 0 rgba(0,0,0,0.30), 0 2px 8px 0 rgba(0,0,0,0.18)',
+                    },
+                    mb: 1,
+                  }}
+                >
+                  <Avatar
+                    src={logos[skill]}
+                    alt={skill}
+                    sx={{ width: 32, height: 32, mr: 1, bgcolor: 'transparent' }}
+                  />
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#222' }}>{skill}</Typography>
+                </Box>
+              );
+            })}
           </Stack>
         </Box>
 
